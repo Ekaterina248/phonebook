@@ -57,7 +57,7 @@ def print_data():
         #print(data_second)# ['name1;surname;phone;adress\n', '\n', 'name2;surname;phone;adress\n', '\n', 'kmmk;mjkm;4568;kli\n', '\n', 'длло;дльол;123456;олдлд\n', '\n', 'орпап;прнку;456987;ррол\n', '\n', 'лолд;длд;длоло;щщот\n']
 
 def change_data():
-    var=int(input('Введите номер справочника в которм будем вносить изменеия:'))
+    var=int(input('Введите номер справочника, в который будем вносить изменеия: '))
     while var !=1 and var !=2:
         print('Неправильный ввод')
         var=int(input('Введите число 1 или 2: '))
@@ -78,7 +78,7 @@ def change_data():
                                         
         #print(data_first_list)
         
-        num_zap=int(input(f'Всего записей {len(data_first_list)}. Введите номер записи в которой бдут изменения:')) 
+        num_zap=int(input(f'Всего записей {len(data_first_list)}. Введите номер записи, в которой бдут изменения: ')) 
         while num_zap>len(data_first_list) or num_zap<1:
             print('Неправильный ввод')
             num_zap=int(input(f'Введите число от 1 до {len(data_first_list)}: '))
@@ -101,11 +101,78 @@ def change_data():
         #         f.write(''.join(data_first_list[0:num_zap-1]))
         #         f.write(f'\n{name}\n{surname}\n{phone}\n{adress}\n')
         #         f.write(''.join(data_first_list[num_zap:len(data_first_list)]))
-                
-#change_data()
-
+    if var==2:
+        with open('data_second_variant.csv','r',encoding='utf-8') as f:
+            data_second=f.readlines() 
+            #print(data_second)
+            data_second2=[i for i in data_second if i!='\n' ]
+            #print(data_second2)
+        num_zap=int(input(f'Всего записей {len(data_second2)}. Введите номер записи, в которой бдут изменения: ')) 
+        
+        while num_zap>len(data_second2) or num_zap<1:
+            print('Неправильный ввод')
+            num_zap=int(input(f'Введите число от 1 до {len(data_second2)}: '))
+        name=name_data()
+        surname=surname_data()
+        phone=phone_data()
+        adress=adress_data()
+        new_zap=name+';'+surname+';'+phone+';'+adress+'\n'
+        data_second2[num_zap-1]=new_zap 
+        data_second2=[i+'\n' for i in data_second2]
+        #print(data_second2)
+        
+        with open('data_second_variant.csv','w',encoding='utf-8') as f:
+            f.write(''.join(data_second2))
+        
+          
 def del_data():
-    pass
+    var=int(input('Введите номер справочника, в которм нужно удалить запись: '))
+    while var !=1 and var !=2:
+        print('Неправильный ввод')
+        var=int(input('Введите число 1 или 2: '))
+    if var==1:
+        with open('data_first_variant.csv','r',encoding='utf-8') as f:
+            data_first=f.readlines()  
+            data_first_list=[]              # каждую строку будем добавлять в список
+            j=0
+            for i in range(1,len(data_first)):
+                if data_first[i]=='\n':  # i-тый элемент равен переходу на новую строку или i=последней записи
+                    data_first_list.append(''.join(data_first[j:i])) # в список добавляем элемент. Преобразовываем список в строку с помощью функции join
+                    j=i
+                elif i==len(data_first)-1:
+                    data_first_list.append(''.join(data_first[j:i+1]))
+        #print(data_first_list)
+        
+        num_zap=int(input(f'Всего записей {len(data_first_list)}. Введите номер записи, которую нужно удалить: ')) 
+        while num_zap>len(data_first_list) or num_zap<1:
+            print('Неправильный ввод')
+            num_zap=int(input(f'Введите число от 1 до {len(data_first_list)}: '))  
+        data_first_list.pop(num_zap-1)
+        #print(data_first_list)
+
+        with open('data_first_variant.csv','w',encoding='utf-8') as f:
+            f.write(''.join(data_first_list)) 
+    if var==2:
+        with open('data_second_variant.csv','r',encoding='utf-8') as f:
+            data_second=f.readlines() 
+            #print(data_second)
+            data_second2=[i for i in data_second if i!='\n' ]
+            #print(data_second2)
+        num_zap=int(input(f'Всего записей {len(data_second2)}. Введите номер записи, которую нужно удалить: ')) 
+        
+        while num_zap>len(data_second2) or num_zap<1:
+            print('Неправильный ввод')
+            num_zap=int(input(f'Введите число от 1 до {len(data_second2)}: '))
+        
+        data_second2.pop(num_zap-1) 
+        data_second2=[i+'\n' for i in data_second2]
+        #print(data_second2)
+        
+        with open('data_second_variant.csv','w',encoding='utf-8') as f:
+            f.write(''.join(data_second2))            
+
+
+    
 
         
     
